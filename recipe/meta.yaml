@@ -12,7 +12,7 @@ source:
   git_rev: apache-arrow-{{ version }}
 
 build:
-  number: 3
+  number: 4
   run_exports:
     - {{ pin_subpackage("arrow-cpp", max_pin="x.x.x") }}
 
@@ -161,6 +161,8 @@ outputs:
         - cudatoolkit {{ cudatoolkit }}  # [build_type == 'cuda']
         - cython
         - numpy {{ numpy }}
+        - grpc-cpp {{ grpc_cpp }}
+        - libprotobuf {{ libprotobuf }}
         - python {{ python }}
         - setuptools {{ setuptools }}
         - setuptools_scm
@@ -171,6 +173,8 @@ outputs:
         - {{ pin_compatible('numpy', lower_bound='1.16') }}
         - cudatoolkit {{ cudatoolkit }}  # [build_type == 'cuda']
         - python {{ python }}
+        - grpc-cpp {{ grpc_cpp }}
+        - libprotobuf {{ libprotobuf }}
       run_constrained:
         - arrow-cpp-proc * {{ build_ext }}
 
@@ -182,6 +186,8 @@ outputs:
       summary: Python libraries for Apache Arrow
 
     test:
+      requires :
+        - brotli {{ brotli }}
       imports:
         - pyarrow
         - pyarrow.dataset
